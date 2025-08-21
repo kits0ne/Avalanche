@@ -34,7 +34,8 @@ python -m venv venv
 source venv/bin/activate
 
 Installez les dépendances :
-pip install streamlit pandas textblob transformers
+Toutes les dépendances sont indiquées dans le fichier requirements.txt
+pip install streamlit pandas textblob transformers seaborn matplotlib openpyxl
 
 Lancez l'application V1 :
 streamlit run app_v1.py
