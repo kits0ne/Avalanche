@@ -1,0 +1,42 @@
+import streamlit as st
+import pandas as pd
+#import openai
+import seaborn as sns
+import matplotlib.pyplot as plt
+from textblob import TextBlob
+from transformers import pipeline
+#openai.api_key = st.secrets["OPENAI_API_KEY"]  # ou directement via os.environ
+print ("packages ok")
+
+# Charger le modèle une seule fois
+@st.cache_resource
+def load_model():
+    return pipeline("text-generation", model="gpt2")
+
+@st.cache_data
+def analyze_sentiment(text):
+    blob = TextBlob(str(text))
+    polarity = blob.sentiment.polarity  # -1 = négatif, 0 = neutre, +1 = positif
+    
+    if polarity > 0.1:
+        st.write(f"Sentiment : Positive")
+    elif polarity < -0.1:
+        st.write(f"Sentiment : Negative")
+    else:
+        st.write(f"Sentiment : Neutral")
+
+def get_response(user_input):
+    with st.spinner("Analyzing sentiment and generating text..."):
+        result = generator(user_input, max_length=50, num_return_sequences=1)
+        st.write(result[0]["generated_text"])
+
+
+st.title("Hello people")
+st.write("This is my first streamlit app. It's a sentiment analysis app and text generator. Might take some time when launched. Works in english only")
+user_input = st.text_area("Enter prompt (in english only):")
+generator = load_model()
+
+if st.button("Go analyze") :
+    if user_input:
+        st.write(get_response(user_input))
+        st.write(f"Sentiment: {analyze_sentiment(user_input)}")
