@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 #import openai
-#import seaborn as sns
+import seaborn as sns
 import matplotlib.pyplot as plt
 from textblob import TextBlob
 from transformers import pipeline
@@ -96,3 +96,4 @@ if "df" in st.session_state:
     # plt.ylabel("Average Sentiment Score")
 
     # st.pyplot(fig)
+
